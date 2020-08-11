@@ -1,15 +1,13 @@
+/*eslint-disable */
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const browserSync = require('browser-sync');
 const concat = require('gulp-concat');
-const rename = require('gulp-rename');
 const autoprefixer = require('gulp-autoprefixer');
 const notify = require('gulp-notify');
 const csso = require('gulp-csso');
 const twig = require('gulp-twig');
 const sourcemaps = require('gulp-sourcemaps');
-const data = require('gulp-data');
-const fs = require('fs');
 
 function bsT(done) {
   browserSync.init({
@@ -32,7 +30,7 @@ function stylesT() {
     ])
     .pipe(concat('style.css'))
     .pipe(sourcemaps.init())
-    .pipe(sass({outputStyle: 'expanded'}).on('error', notify.onError()))
+    .pipe(sass({ outputStyle: 'expanded' }).on('error', notify.onError()))
     .pipe(autoprefixer(['last 4 versions']))
     .pipe(csso({
       comments: false,
@@ -52,11 +50,11 @@ function scriptsT() {
     ])
     .pipe(concat('index.js'))
     .pipe(gulp.dest('dist/js'))
-    .pipe(browserSync.reload({stream: true}));
+    .pipe(browserSync.reload({ stream: true }));
 }
 
 function codeT() {
-  return gulp.src('dist/**/*.html').pipe(browserSync.reload({stream: true}));
+  return gulp.src('dist/**/*.html').pipe(browserSync.reload({ stream: true }));
 }
 
 function assetsT() {
