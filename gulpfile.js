@@ -26,7 +26,7 @@ function browserSyncReload(done) {
 
 function stylesT() {
   return gulp.src([
-      'src/css/style.scss',
+      'src/css/main.scss',
     ])
     .pipe(concat('style.css'))
     .pipe(sourcemaps.init())
@@ -64,7 +64,7 @@ function assetsT() {
 }
 
 function watchFiles() {
-  gulp.watch('src/**/*.css', stylesT);
+  gulp.watch('src/**/*.scss', stylesT);
   gulp.watch('src/**/*.js', gulp.series(scriptsT, browserSyncReload));
   gulp.watch('src/**/*.twig',
     gulp.series(gulp.parallel(codeT, twigT), browserSyncReload));

@@ -2,10 +2,18 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
+  font: 100% $font-stack;
+  color: $primary-color;
+  background-color: $background-color;
 }
+
 div {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  &:hover {
+    color: red;
+  }
 }
