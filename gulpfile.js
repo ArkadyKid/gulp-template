@@ -26,7 +26,7 @@ function browserSyncReload(done) {
 
 function stylesT() {
   return gulp.src([
-      'src/css/style.css',
+      'src/css/style.scss',
     ])
     .pipe(concat('style.css'))
     .pipe(sourcemaps.init())
