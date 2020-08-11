@@ -1,7 +1,7 @@
 # Gulp template
 
 ## About 
-Template for simple project like landing page, with Twig, Scss, Gulp, ESLint
+Template for simple project like landing page (with minimum js). Used Twig, Scss, Gulp, ESLint, Babel
 ## Install
 
 ````
