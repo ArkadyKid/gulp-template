@@ -1,15 +1,16 @@
-/*eslint-disable */
-const gulp = require('gulp');
-const sass = require('gulp-sass');
-const browserSync = require('browser-sync');
-const concat = require('gulp-concat');
-const autoprefixer = require('gulp-autoprefixer');
-const notify = require('gulp-notify');
-const csso = require('gulp-csso');
-const twig = require('gulp-twig');
-const sourcemaps = require('gulp-sourcemaps');
+import gulp from 'gulp';
+import sass from 'gulp-sass';
+import browserSync from 'browser-sync';
+import concat from 'gulp-concat';
+import autoprefixer from 'gulp-autoprefixer';
+import notify from 'gulp-notify';
+import csso from 'gulp-csso';
+import twig from 'gulp-twig';
+import sourcemaps from 'gulp-sourcemaps';
+import babel from 'gulp-babel';
+import uglify from 'gulp-uglify';
 
-function bsT(done) {
+function bs(done) {
   browserSync.init({
     server: {
       baseDir: 'dist',
@@ -24,7 +25,7 @@ function browserSyncReload(done) {
   done();
 }
 
-function stylesT() {
+function styles() {
   return gulp.src([
       'src/css/main.scss',
     ])
@@ -40,39 +41,41 @@ function stylesT() {
     .pipe(browserSync.stream());
 }
 
-function twigT() {
+function twigGulp() {
   return gulp.src('src/index.twig').pipe(twig()).pipe(gulp.dest('dist'));
 }
 
-function scriptsT() {
+function scripts() {
   return gulp.src([
       'src/js/index.js',
     ])
     .pipe(concat('index.js'))
+    .pipe(babel())
+    .pipe(uglify())
     .pipe(gulp.dest('dist/js'))
     .pipe(browserSync.reload({ stream: true }));
 }
 
-function codeT() {
+function code() {
   return gulp.src('dist/**/*.html').pipe(browserSync.reload({ stream: true }));
 }
 
-function assetsT() {
+function assets() {
   return gulp.src([
     'src/assets/**/*.*',
   ]).pipe(gulp.dest('dist/assets/'));
 }
 
 function watchFiles() {
-  gulp.watch('src/**/*.scss', stylesT);
-  gulp.watch('src/**/*.js', gulp.series(scriptsT, browserSyncReload));
+  gulp.watch('src/**/*.scss', styles);
+  gulp.watch('src/**/*.js', gulp.series(scripts, browserSyncReload));
   gulp.watch('src/**/*.twig',
-    gulp.series(gulp.parallel(codeT, twigT), browserSyncReload));
+    gulp.series(gulp.parallel(code, twig), browserSyncReload));
 }
 
-const build = gulp.parallel(stylesT, scriptsT, assetsT, twigT);
-const watch = gulp.parallel(watchFiles, bsT);
+export const build = gulp.parallel(styles, scripts, assets, twigGulp);
+export const watch = gulp.parallel(watchFiles, bs);
 
-exports.build = build;
-exports.watch = watch;
-exports.default = gulp.series(build, watch);
+const def = gulp.series(build, watch);
+
+export { def as default };
