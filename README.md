@@ -10,6 +10,6 @@ Twig, Scss, Gulp, ESLint, Babel.
 
 ````
 $ git init
-$ git clone git@github.com:ArkadyKid/gulp-project.git 
+$ git clone git@github.com:ArkadyKid/gulp-template.git
 $ npm install
 ````
