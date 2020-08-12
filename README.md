@@ -3,7 +3,7 @@
 ## About 
 Template for simple project like landing page (with minimum js).
 
-## Used 
+## Stack 
 Twig, Scss, Gulp, ESLint, Babel.
 
 ## Install
