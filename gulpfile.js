@@ -56,7 +56,7 @@ function scripts() {
 }
 
 function code() {
-  return gulp.src('dist/**/*.html').pipe(browserSync.reload({ stream: true }));
+  return gulp.src('dist/*.html').pipe(browserSync.reload({ stream: true }));
 }
 
 function assets() {
@@ -66,10 +66,10 @@ function assets() {
 }
 
 function watchFiles() {
-  gulp.watch('src/**/*.sass', styles);
+  gulp.watch('src/**/*.scss', styles);
   gulp.watch('src/**/*.js', gulp.series(scripts, browserSyncReload));
-  gulp.watch('src/**/*.twig',
-    gulp.series(gulp.parallel(code, twig), browserSyncReload));
+  gulp.watch('src/*.twig',
+    gulp.series(gulp.parallel(code, twigGulp), browserSyncReload));
 }
 
 export const build = gulp.parallel(styles, scripts, assets, twigGulp);
