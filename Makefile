@@ -1,5 +1,3 @@
-install:
-	npm install
 start:
 	gulp
 lint:

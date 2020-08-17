@@ -27,9 +27,8 @@ function browserSyncReload(done) {
 
 function styles() {
   return gulp.src([
-      'src/css/main.scss',
+      'src/sass/main.scss',
     ])
-    .pipe(concat('style.css'))
     .pipe(sourcemaps.init())
     .pipe(sass({ outputStyle: 'expanded' }).on('error', notify.onError()))
     .pipe(autoprefixer(['last 4 versions']))
@@ -67,7 +66,7 @@ function assets() {
 }
 
 function watchFiles() {
-  gulp.watch('src/**/*.scss', styles);
+  gulp.watch('src/**/*.sass', styles);
   gulp.watch('src/**/*.js', gulp.series(scripts, browserSyncReload));
   gulp.watch('src/**/*.twig',
     gulp.series(gulp.parallel(code, twig), browserSyncReload));
