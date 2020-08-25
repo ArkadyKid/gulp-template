@@ -8,13 +8,16 @@
   },
   "author": "Arkady Kidanov",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "lodash": "^4.17.15"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",
     "@babel/preset-env": "^7.11.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-latest": "^6.24.1",
     "browser-sync": "^2.26.7",
     "debug": "^4.1.1",
     "eslint": "^7.0.0",
@@ -35,6 +38,8 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-twig": "^1.2.0",
     "gulp-uglify": "^3.0.2",
-    "vinyl-source-stream": "^2.0.0"
+    "vinyl-source-stream": "^2.0.0",
+    "webpack": "^4.44.1",
+    "webpack-stream": "^5.2.1"
   }
 }

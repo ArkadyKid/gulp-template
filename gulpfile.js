@@ -1,14 +1,16 @@
-import gulp from 'gulp';
-import sass from 'gulp-sass';
-import browserSync from 'browser-sync';
-import concat from 'gulp-concat';
-import autoprefixer from 'gulp-autoprefixer';
-import notify from 'gulp-notify';
-import csso from 'gulp-csso';
-import twig from 'gulp-twig';
-import sourcemaps from 'gulp-sourcemaps';
-import babel from 'gulp-babel';
-import uglify from 'gulp-uglify';
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const browserSync = require('browser-sync');
+const autoprefixer = require('gulp-autoprefixer');
+const notify = require('gulp-notify');
+const csso = require('gulp-csso');
+const twig = require('gulp-twig');
+const uglify = require('gulp-uglify');
+const rename = require('gulp-rename');
+const sourcemaps = require('gulp-sourcemaps');
+const data = require('gulp-data');
+const fs = require('fs');
+const webpackStream = require('webpack-stream');
 
 function bs(done) {
   browserSync.init({
@@ -27,8 +29,7 @@ function browserSyncReload(done) {
 
 function styles() {
   return gulp.src([
-      'src/sass/main.scss',
-    ])
+      'src/sass/main.scss'])
     .pipe(sourcemaps.init())
     .pipe(sass({ outputStyle: 'expanded' }).on('error', notify.onError()))
     .pipe(autoprefixer(['last 4 versions']))
@@ -41,18 +42,33 @@ function styles() {
 }
 
 function twigGulp() {
-  return gulp.src('src/index.twig').pipe(twig()).pipe(gulp.dest('dist'));
+  return gulp.src('src/index.twig').pipe(twig())
+    .pipe(gulp.dest('dist'));
 }
 
 function scripts() {
-  return gulp.src([
-      'src/js/index.js',
-    ])
-    .pipe(concat('index.js'))
-    .pipe(babel())
+  return gulp.src('./src/js/index.js')
+    .pipe(webpackStream({
+      output: {
+        filename: 'index.js',
+      },
+      module: {
+        rules: [
+          {
+            test: /\.(js)$/,
+            exclude: /(node_modules)/,
+            loader: 'babel-loader',
+            query: {
+              presets: ['@babel/preset-env'],
+            },
+          },
+        ],
+      },
+    }))
+    .pipe(gulp.dest('./dist/js'))
     .pipe(uglify())
-    .pipe(gulp.dest('dist/js'))
-    .pipe(browserSync.reload({ stream: true }));
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(gulp.dest('./dist/js'));
 }
 
 function code() {
@@ -72,9 +88,9 @@ function watchFiles() {
     gulp.series(gulp.parallel(code, twigGulp), browserSyncReload));
 }
 
-export const build = gulp.parallel(styles, scripts, assets, twigGulp);
-export const watch = gulp.parallel(watchFiles, bs);
+const build = gulp.parallel(styles, scripts, assets, twigGulp);
+const watch = gulp.parallel(watchFiles, bs);
 
-const def = gulp.series(build, watch);
-
-export { def as default };
+exports.build = build;
+exports.watch = watch;
+exports.default = gulp.series(build, watch);
