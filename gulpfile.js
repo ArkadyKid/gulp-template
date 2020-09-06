@@ -30,7 +30,7 @@ function browserSyncReload(done) {
 
 function styles() {
   return gulp.src([
-      'src/sass/main.scss'])
+    'src/sass/main.scss'])
     .pipe(sourcemaps.init())
     .pipe(sass({ outputStyle: 'expanded' }).on('error', notify.onError()))
     .pipe(autoprefixer(['last 4 versions']))
@@ -50,17 +50,17 @@ function twigGulp() {
 function images() {
   return gulp.src('src/assets/*')
     .pipe(imagemin([
-      imagemin.gifsicle({interlaced: true}),
-      imagemin.mozjpeg({quality: 75, progressive: true}),
-      imagemin.optipng({optimizationLevel: 5}),
+      imagemin.gifsicle({ interlaced: true }),
+      imagemin.mozjpeg({ quality: 75, progressive: true }),
+      imagemin.optipng({ optimizationLevel: 5 }),
       imagemin.svgo({
         plugins: [
           {removeViewBox: true},
           {cleanupIDs: false}
-        ]
-      })
+        ],
+      }),
     ]))
-    .pipe(gulp.dest('dist/assets'))
+    .pipe(gulp.dest('dist/assets'));
 }
 
 function scripts() {
