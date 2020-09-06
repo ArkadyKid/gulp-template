@@ -1,10 +1,7 @@
 # Gulp template
 
-## About 
-Template for simple project like landing page (with minimum js).
-
 ## Stack 
-Twig, Scss, Gulp, ESLint, Babel.
+Twig, Scss, Gulp, ESLint, Babel. Webpack
 
 ## Install
 
